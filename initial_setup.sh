@@ -12,7 +12,7 @@ passwd
 
 # Set Hostname and timezone
 uci set system.@system[0].hostname='WRT1900AC'
-uci set system.@system[0].zonename='America/Vancouver'
+uci set system.@system[0].description="File server, CRON server, etc."
 uci commit system
 /etc/init.d/system restart
 
@@ -42,9 +42,5 @@ uci add_list network.@device[0].ports='wan'
 # commit all changes
 
 uci commit
-
-# remove the firewall config
-
-mv /etc/config/firewall /etc/config/firewall.old
 
 reboot
