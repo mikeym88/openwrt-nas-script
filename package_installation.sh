@@ -14,6 +14,9 @@ opkg install ntfs-3g ntfs-3g-utils block-mount e2fsprogs f2fs-tools dosfstools l
 # Install general disk utilities
 opkg install fdisk mount-utils usbutils lsblk;
 
+# Install other useful utilities
+opkg install shadow-useradd;
+
 # Install USB3 drivers if needed:
 opkg install kmod-usb3;
 
