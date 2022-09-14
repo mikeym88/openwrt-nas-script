@@ -99,7 +99,7 @@ To build a custom OpenWRT image, the easiest way would be to use the [Image Buil
                 -wpad-basic-wolfssl -odhcpd -ppp -ppp-mod-pppoe -odhcpd-ipv6only"
    ```
    **NOTEs**: 
-        * The second-last line are additional optional packages. The `kmod-usb3` package is need if your router supports USB3.0. The others are ones that I personally use frequently.
-        * The files parameter will add the configuration files under `<buildroot>/files/etc`, e.g.:
-            * `<buildroot>/files/etc` has the configs for SSH settings, custom SSL certificates, users/groups, etc.; and 
-            * `<buildroot>/files/etc/config` has the configs for network, Firewall, switch, etc.
+      * The second-last line are additional optional packages. The `kmod-usb3` package is need if your router supports USB3.0. The others are ones that I personally use frequently.
+      * The files parameter will add the configuration files under `<buildroot>/files/etc`, e.g.:
+         * `<buildroot>/files/etc` has the configs for SSH settings, custom SSL certificates, users/groups, etc.; and 
+         * `<buildroot>/files/etc/config` has the configs for network, Firewall, switch, etc.
