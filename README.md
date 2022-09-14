@@ -88,10 +88,18 @@ To build a custom OpenWRT image, the easiest way would be to use the [Image Buil
    ```
    make image \
       PROFILE="linksys_wrt1900ac-v1" \
+      FILES="files" \
+      DISABLED_SERVICES="dnsmasq odhcpd" \
       PACKAGES="kmod-usb-storage kmod-fs-ext4 kmod-fs-ntfs kmod-usb-storage-uas kmod-fs-exfat kmod-fs-f2fs kmod-fs-vfat \
                 ntfs-3g ntfs-3g-utils block-mount e2fsprogs f2fs-tools dosfstools libblkid \
                 fdisk mount-utils usbutils lsblk \
                 shadow-useradd sudo \
-                kmod-usb3 acme python3 luci luci-app-samba4 \
+                luci luci-app-samba4 \
+                kmod-usb3 acme python3 git libupm-nrf24l01-python3 \
                 -wpad-basic-wolfssl -odhcpd -ppp -ppp-mod-pppoe -odhcpd-ipv6only"
    ```
+   **NOTEs**: 
+        * The second-last line are additional optional packages. The `kmod-usb3` package is need if your router supports USB3.0. The others are ones that I personally use frequently.
+        * The files parameter will add the configuration files under `<buildroot>/files/etc`, e.g.:
+            * `<buildroot>/files/etc` has the configs for SSH settings, custom SSL certificates, users/groups, etc.; and 
+            * `<buildroot>/files/etc/config` has the configs for network, Firewall, switch, etc.
