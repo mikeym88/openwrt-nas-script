@@ -1,6 +1,11 @@
 # OpenWRT NAS Script
 
-Scripts to convert a router into a NAS using OpenWRT. These scripts assume you already have OpenWRT installed and it's uninitialized (i.e. it's been fully reset).
+Do you have an older router that is lying around collecting dust? Well you can repurpose it! I was inspired to create these script after watching a few of [OneMarcFifty](https://github.com/onemarcfifty)'s videos, particularly:
+
+* [Building a managed switch with OpenWrt on old Wifi Router](https://www.youtube.com/watch?v=yCV-08tSwe8)
+* [cheap DIY NAS from old Router with OpenWrt and Samba for your home network](https://www.youtube.com/watch?v=vTxfgstBIlE)
+
+The scripts in this repo will help you to convert a router into a NAS using OpenWRT. These scripts assume you already have OpenWRT installed and it's uninitialized (i.e. it's been fully reset).
 
 ## Setup
 
@@ -18,7 +23,7 @@ Next, run the initial file  by running the following commands:
 
 ```
 ssh root@192.168.1.1
-./initial_setup.sh
+./initial_setup.sh initial_setup
 ```
 
 The script will prompt you to set the intial password. By default, the scripts will change the router from a Static IP address to a DHCP address.
