@@ -12,17 +12,17 @@ initial_setup () {
   # Change password
   passwd;
 
-  HOSTNAME="NASROUTER";
+  NEW_HOSTNAME="NASROUTER";
 
   # Validate parameter
   if [[ ! -z "$1" && "$1" =~ ^[a-zA-Z0-9]\([a-zA-Z0-9\-]*[a-zA-Z0-9]+\)?$ ]]; then
-    HOSTNAME=$1;
-    echo "Setting hostname to $HOSTNAME";
+    NEW_HOSTNAME=$1;
+    echo "Setting hostname to $NEW_HOSTNAME";
   else
-    echo "Hostname passed is not passed or not valid; setting hostname to $HOSTNAME.";
+    echo "Hostname passed is not passed or not valid; setting hostname to $NEW_HOSTNAME.";
   fi
   # Set Hostname and timezone
-  uci set system.@system[0].hostname="$HOSTNAME"
+  uci set system.@system[0].hostname="$NEW_HOSTNAME"
   uci set system.@system[0].description="File server, CRON server, etc."
   uci commit system
   /etc/init.d/system restart
@@ -69,13 +69,21 @@ create_user () {
 
   if [[ ! -z "$1" ]]; then
     echo "Argument is: $1";
-    # TODO validate username
   else
     echo "Argument is not populated";
   fi
+
+  # Add user
   useradd -U -s /bin/ash $USERNAME -c "User-created account";
+  if [[ $? -ne 0 ]]; then
+    echo "Username not properly formatted: $USERNAME";
+    exit 1;
+  fi
+
+  # Create password for user
   passwd $USERNAME;
 
+  # Create user home directory
   mkdir -p /home/"$1";
   chown $USERNAME /home/$USERNAME;
 }
