@@ -4,13 +4,18 @@
 # NOTE: if you get any errors (e.g. no more room on /overlay), try rebooting the router
 
 opkg update;
-opkg install kmod-usb-storage kmod-fs-ext4 kmod-fs-ntfs ntfs-3g ntfs-3g-utils block-mount fdisk;
+
+# Install drivers and filesystem support
+opkg install kmod-usb-storage kmod-fs-ext4 kmod-fs-ntfs kmod-usb-storage-uas kmod-fs-exfat kmod-fs-f2fs kmod-fs-vfat;
+
+# Install filesystem utilities
+opkg install ntfs-3g ntfs-3g-utils block-mount e2fsprogs f2fs-tools dosfstools ntfsprogs_ntfs-3g libblkid;
+
+# Install general disk utilities
+opkg install fdisk mount-utils usbutils lsblk;
 
 # Install USB3 drivers if needed:
 opkg install kmod-usb3;
-
-# Install Letsencrypt acme tool (if needed)
-opkg install acme;
 
 # Install Samba v4 file server
 opkg install luci-app-samba4;
