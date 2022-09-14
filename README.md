@@ -50,3 +50,36 @@ To insntall them, run the following script:
 ```
 ./package_installation.sh
 ```
+
+## Custom OpenWRT Build
+
+To convert a router to purely a home server or file server (i.e. not using as an actual router), the best bet is to create custom OpenWRT images. The reason behind this is because router firmware is usually flashed to a read-only section. Meaning: if you want to uninstall a built-in package (e.g. the DHCP server), you won't be able to recover that space. Hence why you want to build custom images.
+
+For more information:
+* [Which packages can I safely remove to save space?](https://openwrt.org/faq/which_packages_can_i_safely_remove_to_save_space)
+* [Build image for devices with only 4MB flash](https://openwrt.org/faq/build_image_for_devices_with_only_4mb_flash)
+* [Saving firmware space and RAM](https://openwrt.org/docs/guide-user/additional-software/saving_space)
+
+### Building the custom image
+
+To build a custom OpenWRT image, the easiest way would be to use the [Image Builder](https://openwrt.org/docs/guide-user/additional-software/imagebuilder). 
+
+1. Download the **Image Builder archive** from the same place where you would download your router's firmware.
+  * For example: I have a Linksys WRT1900AC v1 router. The OpenWRT 22.03 downloads for the router are listed here: <https://downloads.openwrt.org/releases/22.03.0/targets/mvebu/cortexa9/>
+    * The image I would normally download is [linksys_wrt1900ac-v1-squashfs-factory.img](https://downloads.openwrt.org/releases/22.03.0/targets/mvebu/cortexa9/openwrt-22.03.0-mvebu-cortexa9-linksys_wrt1900ac-v1-squashfs-factory.img)
+    * The image builder is [openwrt-imagebuilder-22.03.0-mvebu-cortexa9.Linux-x86_64.tar.xz](https://downloads.openwrt.org/releases/22.03.0/targets/mvebu/cortexa9/openwrt-imagebuilder-22.03.0-mvebu-cortexa9.Linux-x86_64.tar.xz)
+2. Unzip the archive and switch to the directory:
+   ```
+   tar -J -x -f openwrt-imagebuilder-*.tar.xz
+   cd openwrt-imagebuilder-*/
+   ```
+3. Create the custom image with the router profile and the packages you want to add or remove. Run `make info` to get the profiles - this is where I got `linksys_wrt1900ac-v1` seen in the example below:
+   ```
+   make image \
+      PROFILE="linksys_wrt1900ac-v1" \
+      PACKAGES="kmod-usb-storage kmod-fs-ext4 kmod-fs-ntfs kmod-usb-storage-uas kmod-fs-exfat kmod-fs-f2fs kmod-fs-vfat \
+                ntfs-3g ntfs-3g-utils block-mount e2fsprogs f2fs-tools dosfstools libblkid \
+                fdisk mount-utils usbutils lsblk \
+                kmod-usb3 acme python3 luci luci-app-samba4 \
+                -wpad-basic-wolfssl -odhcpd -ppp -ppp-mod-pppoe -odhcpd-ipv6only"
+   ```
