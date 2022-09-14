@@ -1,6 +1,6 @@
 # OpenWRT NAS Script
 
-Do you have an older router that is lying around collecting dust? Well you can repurpose it! I was inspired to create these script after watching a few of [OneMarcFifty](https://github.com/onemarcfifty)'s videos, particularly:
+Do you have an older router that is lying around collecting dust? Well you can repurpose it! I was inspired to create these script after watching a few of [OneMarcFifty](https://www.youtube.com/c/OneMarcFifty)'s videos, particularly:
 
 * [Building a managed switch with OpenWrt on old Wifi Router](https://www.youtube.com/watch?v=yCV-08tSwe8)
 * [cheap DIY NAS from old Router with OpenWrt and Samba for your home network](https://www.youtube.com/watch?v=vTxfgstBIlE)
