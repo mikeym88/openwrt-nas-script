@@ -45,11 +45,17 @@ Next, you will need to install the relevant packages, including:
 * Utilities like `fdisk`, `block-mount`, etc.
 * Other relevant packages (I've included `acme`, `python3` since those are packages that I use often)
 
-To insntall them, run the following script:
+To install them, run the following script:
 
 ```
 ./package_installation.sh
 ```
+
+### Configuring the Drives
+
+* [OpenWRT NAS Guide](https://openwrt.org/docs/guide-user/services/nas/start)
+ * This guide provides additional information and instructions, inlcuding how to set up SCSI devides and set more granular firewall rules.
+* [OpenWRT Filesystems](https://openwrt.org/docs/guide-user/storage/filesystems-and-partitions)
 
 ## Custom OpenWRT Build
 
