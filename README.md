@@ -76,9 +76,9 @@ For more information:
 To build a custom OpenWRT image, the easiest way would be to use the [Image Builder](https://openwrt.org/docs/guide-user/additional-software/imagebuilder). 
 
 1. Download the **Image Builder archive** from the same place where you would download your router's firmware.
-  * For example: I have a Linksys WRT1900AC v1 router. The OpenWRT 22.03 downloads for the router are listed here: <https://downloads.openwrt.org/releases/22.03.0/targets/mvebu/cortexa9/>
-    * The image I would normally download is [linksys_wrt1900ac-v1-squashfs-factory.img](https://downloads.openwrt.org/releases/22.03.0/targets/mvebu/cortexa9/openwrt-22.03.0-mvebu-cortexa9-linksys_wrt1900ac-v1-squashfs-factory.img)
-    * The image builder is [openwrt-imagebuilder-22.03.0-mvebu-cortexa9.Linux-x86_64.tar.xz](https://downloads.openwrt.org/releases/22.03.0/targets/mvebu/cortexa9/openwrt-imagebuilder-22.03.0-mvebu-cortexa9.Linux-x86_64.tar.xz)
+    * For example: I have a Linksys WRT1900AC v1 router. The OpenWRT 22.03 downloads for the router are listed here: <https://downloads.openwrt.org/releases/22.03.0/targets/mvebu/cortexa9/>
+        * The image I would normally download is [linksys_wrt1900ac-v1-squashfs-factory.img](https://downloads.openwrt.org/releases/22.03.0/targets/mvebu/cortexa9/openwrt-22.03.0-mvebu-cortexa9-linksys_wrt1900ac-v1-squashfs-factory.img)
+        * The image builder is [openwrt-imagebuilder-22.03.0-mvebu-cortexa9.Linux-x86_64.tar.xz](https://downloads.openwrt.org/releases/22.03.0/targets/mvebu/cortexa9/openwrt-imagebuilder-22.03.0-mvebu-cortexa9.Linux-x86_64.tar.xz)
 2. Unzip the archive and switch to the directory:
    ```
    tar -J -x -f openwrt-imagebuilder-*.tar.xz
