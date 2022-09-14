@@ -17,7 +17,7 @@ uci commit system
 /etc/init.d/system restart
 
 # These services do not need to run
-for i in firewall dnsmasq odhcpd; do
+for i in dnsmasq odhcpd; do
   if /etc/init.d/"$i" enabled; then
     /etc/init.d/"$i" disable
     /etc/init.d/"$i" stop
@@ -30,7 +30,6 @@ done
 uci set network.lan.proto='dhcp'
 uci set dhcp.lan.ignore='1'
 
-
 # Delete WAN interface and add port to the LAN interface
 uci delete network.wan
 uci delete network.wan6
@@ -38,9 +37,16 @@ uci delete network.lan.ipaddr
 uci delete network.lan.netmask
 uci add_list network.@device[0].ports='wan'
 
+# Delete firewall zones and rules because WAN doesn't exist anymore
+while uci get firewall.@zone[-1] &> /dev/null ; do
+    uci delete firewall.@zone[-1];
+done
+
+while uci get firewall.@rule[-1] &> /dev/null ; do
+    uci delete firewall.@rule[-1];
+done
 
 # commit all changes
-
 uci commit
 
 reboot
