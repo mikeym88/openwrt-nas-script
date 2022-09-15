@@ -12,10 +12,10 @@ opkg install kmod-usb-storage kmod-fs-ext4 kmod-fs-ntfs kmod-usb-storage-uas kmo
 opkg install ntfs-3g ntfs-3g-utils block-mount e2fsprogs f2fs-tools dosfstools libblkid;
 
 # Install general disk utilities
-opkg install fdisk mount-utils usbutils lsblk;
+opkg install fdisk mount-utils usbutils lsblk blkid jq;
 
 # Install other useful utilities
-opkg install shadow-useradd sudo;
+opkg install sudo shadow-useradd shadow-groupadd shadow-groups shadow-usermod;
 
 # Install USB3 drivers if needed:
 opkg install kmod-usb3;

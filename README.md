@@ -92,8 +92,8 @@ To build a custom OpenWRT image, the easiest way would be to use the [Image Buil
       DISABLED_SERVICES="dnsmasq odhcpd" \
       PACKAGES="kmod-usb-storage kmod-fs-ext4 kmod-fs-ntfs kmod-usb-storage-uas kmod-fs-exfat kmod-fs-f2fs kmod-fs-vfat \
                 ntfs-3g ntfs-3g-utils block-mount e2fsprogs f2fs-tools dosfstools libblkid \
-                fdisk mount-utils usbutils lsblk \
-                shadow-useradd sudo \
+                fdisk mount-utils usbutils lsblk blkid jq \
+                sudo shadow-useradd shadow-groupadd shadow-groups shadow-usermod \
                 luci luci-app-samba4 \
                 kmod-usb3 acme python3 git libupm-nrf24l01-python3 \
                 -wpad-basic-wolfssl -odhcpd -ppp -ppp-mod-pppoe -odhcpd-ipv6only"
