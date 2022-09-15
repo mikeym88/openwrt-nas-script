@@ -88,4 +88,27 @@ create_user () {
   chown $USERNAME /home/$USERNAME;
 }
 
+create_samba_user () {
+  # https://openwrt.org/docs/guide-user/services/nas/samba_configuration#adding_samba_user_s
+  USERNAME="samba";
+  GROUP="nas"
+
+  # Add group if it does not exist
+  if !(grep -q -E "^$GROUP:" /etc/group); then 
+    groupadd $GROUP;
+  else
+    echo "Samba group, $GROUP, already exists.";
+  fi
+  
+  # Add user if it does not exist
+  if !(grep -q -E "^$USERNAME:" /etc/passwd); then 
+    useradd -g $GROUP $USERNAME -c "Account for Samba shares";
+  else
+    echo "Samba user, $USERNAME, already exists.";
+  fi
+
+  # Create password for user
+  passwd $USERNAME;
+}
+
 "$@"
