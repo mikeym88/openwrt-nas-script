@@ -80,7 +80,7 @@ create_samba_group () {
 create_samba_user () {
   # https://openwrt.org/docs/guide-user/services/nas/samba_configuration#adding_samba_user_s
   # Add user if it does not exist
-  create_samba_group()
+  create_samba_group
 
   if !(grep -q -E "^$SAMBA_USERNAME:" /etc/passwd); then 
     useradd -g $SAMBA_GROUP $SAMBA_USERNAME -c "Account for Samba shares";
