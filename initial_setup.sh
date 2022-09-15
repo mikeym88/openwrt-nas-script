@@ -21,6 +21,7 @@ initial_setup () {
   else
     echo "Hostname passed is not passed or not valid; setting hostname to $NEW_HOSTNAME.";
   fi
+  
   # Set Hostname and timezone
   uci set system.@system[0].hostname="$NEW_HOSTNAME"
   uci set system.@system[0].description="File server, CRON server, etc."
@@ -99,16 +100,15 @@ create_samba_user () {
   else
     echo "Samba group, $GROUP, already exists.";
   fi
-  
+
   # Add user if it does not exist
   if !(grep -q -E "^$USERNAME:" /etc/passwd); then 
     useradd -g $GROUP $USERNAME -c "Account for Samba shares";
+    # Create password for user
+    passwd $USERNAME;
   else
     echo "Samba user, $USERNAME, already exists.";
   fi
-
-  # Create password for user
-  passwd $USERNAME;
 }
 
 "$@"
