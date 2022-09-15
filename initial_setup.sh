@@ -8,6 +8,10 @@
 #   - Delete the WAN interface and assign the port to the LAN interface
 
 
+SAMBA_USERNAME="samba";
+SAMBA_GROUP="nas";
+
+
 initial_setup () {
   # Change password
   passwd;
@@ -21,7 +25,7 @@ initial_setup () {
   else
     echo "Hostname passed is not passed or not valid; setting hostname to $NEW_HOSTNAME.";
   fi
-  
+
   # Set Hostname and timezone
   uci set system.@system[0].hostname="$NEW_HOSTNAME"
   uci set system.@system[0].description="File server, CRON server, etc."
@@ -64,51 +68,57 @@ initial_setup () {
   reboot
 }
 
+create_samba_group () {
+  # Add group if it does not exist
+  if !(grep -q -E "^$SAMBA_GROUP:" /etc/group); then 
+    groupadd $SAMBA_GROUP;
+  else
+    echo "Samba group, $SAMBA_GROUP, already exists.";
+  fi
+}
+
+create_samba_user () {
+  # https://openwrt.org/docs/guide-user/services/nas/samba_configuration#adding_samba_user_s
+  # Add user if it does not exist
+  create_samba_group()
+
+  if !(grep -q -E "^$SAMBA_USERNAME:" /etc/passwd); then 
+    useradd -g $SAMBA_GROUP $SAMBA_USERNAME -c "Account for Samba shares";
+    # Create password for user
+    passwd $SAMBA_USERNAME;
+  else
+    echo "Samba user, $SAMBA_USERNAME, already exists.";
+  fi
+}
+
 create_user () {
+  create_samba_group
+
   # Create non-privileged user
-  USERNAME=$1;
+  USERNAME="$1";
 
   if [[ ! -z "$1" ]]; then
-    echo "Argument is: $1";
+    echo "Creating account with user is: $USERNAME, and adding to group $SAMBA_GROUP";
   else
     echo "Argument is not populated";
   fi
 
   # Add user
-  useradd -U -s /bin/ash $USERNAME -c "User-created account";
-  if [[ $? -ne 0 ]]; then
-    echo "Username not properly formatted: $USERNAME";
-    exit 1;
+  if !(grep -q -E "^$USERNAME:" /etc/passwd); then 
+    useradd -U -m -c "User-created account" -s /bin/ash -G $SAMBA_GROUP $USERNAME;
+    
+    if [[ $? -ne 0 ]]; then
+      echo "Username not properly formatted: $USERNAME";
+      exit 1;
+    else
+      echo "Account created.";
+    fi
+  else
+    echo "Account already exists.";
   fi
 
   # Create password for user
   passwd $USERNAME;
-
-  # Create user home directory
-  mkdir -p /home/"$1";
-  chown $USERNAME /home/$USERNAME;
-}
-
-create_samba_user () {
-  # https://openwrt.org/docs/guide-user/services/nas/samba_configuration#adding_samba_user_s
-  USERNAME="samba";
-  GROUP="nas"
-
-  # Add group if it does not exist
-  if !(grep -q -E "^$GROUP:" /etc/group); then 
-    groupadd $GROUP;
-  else
-    echo "Samba group, $GROUP, already exists.";
-  fi
-
-  # Add user if it does not exist
-  if !(grep -q -E "^$USERNAME:" /etc/passwd); then 
-    useradd -g $GROUP $USERNAME -c "Account for Samba shares";
-    # Create password for user
-    passwd $USERNAME;
-  else
-    echo "Samba user, $USERNAME, already exists.";
-  fi
 }
 
 "$@"
