@@ -9,7 +9,7 @@ opkg update;
 opkg install kmod-usb-storage kmod-fs-ext4 kmod-fs-ntfs kmod-usb-storage-uas kmod-fs-exfat kmod-fs-f2fs kmod-fs-vfat;
 
 # Install filesystem utilities
-opkg install ntfs-3g ntfs-3g-utils block-mount e2fsprogs f2fs-tools dosfstools libblkid;
+opkg install ntfs-3g ntfs-3g-utils block-mount e2fsprogs f2fs-tools dosfstools libblkid luci-app-hd-idle;
 
 # Install general disk utilities
 opkg install fdisk mount-utils usbutils lsblk blkid jq;
