@@ -47,11 +47,18 @@ initial_setup () {
   uci set dhcp.lan.ignore='1'
 
   # Delete WAN interface and add port to the LAN interface
-  uci delete network.wan
-  uci delete network.wan6
-  uci delete network.lan.ipaddr
-  uci delete network.lan.netmask
-  uci add_list network.@device[0].ports='wan'
+  uci delete network.wan;
+  uci delete network.wan6;
+  uci delete network.lan.ipaddr;
+  uci delete network.lan.netmask;
+  
+  lan_ports=$(uci get network.@device[0].ports);
+  if [[ "$lan_ports" =~ ".* wan" ]]; then
+    echo "WAN port already assigned to LAN interface.";
+  else
+    echo "Assign WAN port to LAN interface."
+    uci add_list network.@device[0].ports='wan'
+  fi
 
   # Delete firewall zones and rules because WAN doesn't exist anymore
   while uci get firewall.@zone[-1] &> /dev/null ; do
