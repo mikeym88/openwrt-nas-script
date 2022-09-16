@@ -71,6 +71,7 @@ initial_setup () {
 create_samba_group () {
   # Add group if it does not exist
   if !(grep -q -E "^$SAMBA_GROUP:" /etc/group); then 
+    echo "Creating $SAMBA_GROUP group";
     groupadd $SAMBA_GROUP;
   else
     echo "Samba group, $SAMBA_GROUP, already exists.";
@@ -79,16 +80,40 @@ create_samba_group () {
 
 create_samba_user () {
   # https://openwrt.org/docs/guide-user/services/nas/samba_configuration#adding_samba_user_s
-  # Add user if it does not exist
+  # Add samba user if it does not exist
   create_samba_group
 
   if !(grep -q -E "^$SAMBA_USERNAME:" /etc/passwd); then 
+    echo "Creating samba user";
     useradd -g $SAMBA_GROUP $SAMBA_USERNAME -c "Account for Samba shares";
-    # Create password for user
-    passwd $SAMBA_USERNAME;
   else
     echo "Samba user, $SAMBA_USERNAME, already exists.";
   fi
+  # Create password for user
+  echo "Create password for 'samba' OpenWrt user account"
+  passwd $SAMBA_USERNAME;
+
+  echo "Create password for 'samba' Samba4 user account"
+  smbpasswd -a $SAMBA_USERNAME;
+}
+
+configure_samba () {
+  echo "Configuring Samba server";
+  create_samba_user;
+  if (grep -q -e "\tusername map =" /etc/samba/smb.conf.template); then 
+    echo "Setting 'username map' already exists in /etc/samba/smb.conf.template";
+  else 
+    echo "Adding 'username map' setting in /etc/samba/smb.conf.template";
+    sed -i -r "/################ Filesystem/s/^/\tusername map = \/etc\/samba\/username.map\n\n/" /etc/samba/smb.conf.template
+  fi
+  
+  echo "Creating /etc/samba/username.map";
+  touch /etc/samba/username.map;
+
+  echo "Updating server descriptiong";
+  uci set samba4.@samba[0].description="$HOSTNAME NAS server";
+  uci commit samba4;
+  service samba4 restart;
 }
 
 create_user () {
@@ -118,7 +143,12 @@ create_user () {
   fi
 
   # Create password for user
+  echo "Create password for $USERNAME (for shell access, web access, etc.):";
   passwd $USERNAME;
+
+  # Create Samba password
+  echo "Create Samba4 password for $USERNAME";
+  smbpasswd -a $USERNAME;
 }
 
 "$@"
