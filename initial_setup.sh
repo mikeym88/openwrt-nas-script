@@ -68,7 +68,10 @@ initial_setup () {
   while uci get firewall.@rule[-1] &> /dev/null ; do
       uci delete firewall.@rule[-1];
   done
-
+  
+  # Change the default theme (to distinguish it from main router)
+  uci set luci.main.mediaurlbase='/luci-static/bootstrap-dark';
+  
   # commit all changes
   uci commit
 
@@ -117,8 +120,12 @@ configure_samba () {
   echo "Creating /etc/samba/username.map";
   touch /etc/samba/username.map;
 
-  echo "Updating server descriptiong";
+  echo "Updating server description.";
   uci set samba4.@samba[0].description="$HOSTNAME NAS server";
+  echo "Enable macOS support.";
+  uci set samba4.@samba[0].macos='1';
+  echo "Explicitly specify interface.";
+  uci set samba4.@samba[0].interface='lan';
   uci commit samba4;
   service samba4 restart;
 }
