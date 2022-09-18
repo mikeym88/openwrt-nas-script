@@ -113,10 +113,11 @@ To build a custom OpenWRT image, the easiest way would be to use the [Image Buil
       PACKAGES="kmod-usb-storage kmod-fs-ext4 kmod-fs-ntfs kmod-usb-storage-uas kmod-fs-exfat kmod-fs-f2fs kmod-fs-vfat \
                 ntfs-3g ntfs-3g-utils block-mount e2fsprogs f2fs-tools dosfstools libblkid \
                 fdisk mount-utils usbutils lsblk blkid jq  \
-                sudo shadow-useradd shadow-groupadd shadow-groups shadow-usermod \
-                luci luci-app-samba4 luci-app-hd-idle \
-                kmod-usb3 acme python3 git libupm-nrf24l01-python3 \
-                -wpad-mesh-wolfssl -odhcpd -ppp -ppp-mod-pppoe -odhcpd-ipv6only"
+                sudo shadow-useradd shadow-groupadd shadow-groups shadow-usermod zram-swap \
+                uhttpd uhttpd-mod-ubus libiwinfo-lua luci-base luci-app-firewall luci-mod-admin-full luci-theme-bootstrap \
+                luci-app-samba4 luci-app-hd-idle \
+                kmod-usb3 acme python3 python3-pip git libupm-nrf24l01-python3 \
+                -wpad-mesh-wolfssl -odhcpd -ppp -ppp-mod-pppoe -odhcpd-ipv6only -iptables -ip6tables"
    ```
    **NOTEs**: 
       * The second-last line are additional optional packages. The `kmod-usb3` package is needed if your router supports USB3.0. The others are ones that I personally use frequently.
